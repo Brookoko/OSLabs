@@ -53,3 +53,81 @@ To reduce some unnecessary operations and not to lose information in the block,
 firstly the current block is checked to see if we can do the reallocation in.
 If there is no place in the current block even after merging with free neighboring blocks
 then allocator tries to allocate memory using `mem_alloc(size_t size)`.
+
+## Examples
+
+#### Allocation example
+```
+Allocator allocator = Allocator(1024);
+
+allocator.mem_alloc(512);
+allocator.mem_alloc(256);
+allocator.mem_alloc(128);
+allocator.mem_alloc(64);
+allocator.mem_alloc(32);
+allocator.mem_alloc(16);
+allocator.mem_alloc(8);
+```
+![Allocation](./assets/allocation.png)
+
+#### Bad allocation example
+```
+Allocator allocator = Allocator(1024);
+
+allocator.mem_alloc(8);
+allocator.mem_alloc(16);
+allocator.mem_alloc(32);
+allocator.mem_alloc(64);
+allocator.mem_alloc(128);
+allocator.mem_alloc(256);
+allocator.mem_alloc(512);
+```
+![Bad allocation](./assets/bad-allocation.png)
+
+#### Free example
+```
+Allocator allocator = Allocator(1024);
+
+auto *loc1 = allocator.mem_alloc(512);
+auto *loc2 = allocator.mem_alloc(256);
+auto *loc3 =  allocator.mem_alloc(128);
+```
+![Before Free](assets/before-free.png)
+
+```
+allocator.mem_free(loc1);
+allocator.mem_free(loc3);
+allocator.mem_free(loc2);
+```
+![After free](assets/after-free.png)
+
+#### Free completely example
+```
+Allocator allocator = Allocator(1024);
+
+allocator.mem_alloc(500);
+allocator.mem_alloc(500);
+
+allocator.mem_free();
+```
+![Free completely](./assets/free-all.png)
+
+#### Reallocation example
+```
+Allocator allocator = Allocator(1024);
+auto *loc = allocator.mem_alloc(200);
+allocator.mem_alloc(200);
+```
+![Before reallocation](./assets/before-reallocation.png)
+```
+allocator.mem_realloc(loc, 20);
+```
+![Reallocation smaller](./assets/reallocate-smaller.png)
+```
+allocator.mem_realloc(loc, 200);
+```
+![Reallocation bigger](./assets/reallocate-bigger.png)
+```
+allocator.mem_realloc(loc, 500);
+```
+![Reallocation move](./assets/reallocate-move.png)

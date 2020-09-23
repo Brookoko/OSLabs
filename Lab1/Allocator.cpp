@@ -194,4 +194,5 @@ void Allocator::mem_dump()
         std::cout << isAvailable << " " << header << " " << header->size << std::endl;
         header = header->next();
     }
+    std::cout << std::endl;
 }

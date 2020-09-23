@@ -1,36 +1,65 @@
 #include <iostream>
 #include "Allocator.h"
 
-void test1()
+void allocationTest()
 {
     Allocator allocator = Allocator(1024);
     allocator.mem_dump();
-    std::cout << std::endl;
 
-    void *location = allocator.mem_alloc(1000);
-    std::cout << location << std::endl;
-    std::cout << std::endl;
-    allocator.mem_dump();
-    std::cout << std::endl;
-
-    allocator.mem_realloc(location, 16);
-    allocator.mem_dump();
-    std::cout << std::endl;
-
-    allocator.mem_free(location);
-    allocator.mem_dump();
-    std::cout << std::endl;
-
+    allocator.mem_alloc(512);
+    allocator.mem_alloc(256);
+    allocator.mem_alloc(128);
     allocator.mem_alloc(64);
+    allocator.mem_alloc(32);
+    allocator.mem_alloc(16);
+    allocator.mem_alloc(8);
     allocator.mem_dump();
-    std::cout << std::endl;
-
-    allocator.mem_free();
-    allocator.mem_dump();
-    std::cout << std::endl;
 }
 
-void test2()
+void freeTest()
+{
+    Allocator allocator = Allocator(1024);
+
+    auto *loc1 = allocator.mem_alloc(512);
+    auto *loc2 = allocator.mem_alloc(256);
+    auto *loc3 =  allocator.mem_alloc(128);
+    allocator.mem_dump();
+
+    allocator.mem_free(loc1);
+    allocator.mem_dump();
+    
+    allocator.mem_free(loc3);
+    allocator.mem_dump();
+    
+    allocator.mem_free(loc2);
+    allocator.mem_dump();
+
+    allocator.mem_alloc(500);
+    allocator.mem_alloc(500);
+    allocator.mem_dump();
+    
+    allocator.mem_free();
+    allocator.mem_dump();
+}
+
+void reallocationTest() {
+    Allocator allocator = Allocator(1024);
+
+    auto *loc = allocator.mem_alloc(200);
+    allocator.mem_alloc(200);
+    allocator.mem_dump();
+
+    allocator.mem_realloc(loc, 20);
+    allocator.mem_dump();
+
+    allocator.mem_realloc(loc, 200);
+    allocator.mem_dump();
+
+    allocator.mem_realloc(loc, 500);
+    allocator.mem_dump();
+}
+
+void fragmentationTest()
 {
     Allocator allocator = Allocator(1024);
     void *location1 = allocator.mem_alloc(900);
@@ -45,7 +74,7 @@ void test2()
 int main() {
     try
     {
-        test2();
+        allocationTest();
     }
     catch (std::exception ex)
     {

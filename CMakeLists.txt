@@ -8,4 +8,4 @@ include_directories(.)
 add_executable(OSLabs
         Lab1/Allocator.cpp
         Lab1/Allocator.h
-        Lab1/main.cpp)
+        Lab2/PageAllocator.h Lab2/PageAllocator.cpp Lab2/main.cpp)

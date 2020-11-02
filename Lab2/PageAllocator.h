@@ -36,7 +36,7 @@ private:
     };
 
     size_t const pageSize = 4 * 1024;
-    size_t const minAllocationSize = 32;
+    size_t const minAllocationSize = 16;
     size_t pageAmount;
     
     void* startPointer;

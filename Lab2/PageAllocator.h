@@ -53,7 +53,7 @@ private:
     inline size_t GetClassSize(size_t size)
     {
         auto next = (size_t) pow(2, ceil(log(size) / log(2)));
-        return (size_t) (std::max(minAllocationSize, next));
+        return std::max(minAllocationSize, next);
     }
     
     inline void* GetPage(void* addr)

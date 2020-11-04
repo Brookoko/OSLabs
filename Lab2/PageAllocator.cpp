@@ -38,7 +38,7 @@ void *PageAllocator::FindClassPage(size_t classSize)
 {
     auto pages = freeClassPages[classSize];
     if (pages.empty()) return nullptr;
-    else return pages.front();
+    return pages.front();
 }
 
 void *PageAllocator::DivideFreePage(size_t classSize)

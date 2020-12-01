@@ -9,7 +9,7 @@ namespace Lab3
         
         public int Id { get; }
         
-        public double Time { get; }
+        public double Time { get; protected set; }
         
         public int Priority { get; }
         
@@ -19,6 +19,10 @@ namespace Lab3
         
         public IEnumerator Routine { get; private set; }
         
+        public DateTime Start { get; set; }
+        
+        public DateTime End { get; set; }
+        
         public Request(double time, int priority)
         {
             Id = num++;
@@ -26,14 +30,35 @@ namespace Lab3
             Priority = priority;
         }
         
-        public void Execute()
+        public IEnumerator Execute()
         {
-            Routine = StartRoutine();
+            return Routine = StartRoutine();
         }
         
-        private IEnumerator StartRoutine()
+        protected virtual IEnumerator StartRoutine()
         {
             yield return Time;
+        }
+    }
+    
+    public class TestRequest : Request
+    {
+        public TestRequest(double time, int priority) : base(time, priority)
+        {
+        }
+        
+        protected override IEnumerator StartRoutine()
+        {
+            while (Time > 0)
+            {
+                yield return Wait();
+            }
+        }
+        
+        private IEnumerator Wait()
+        {
+            yield return 0.1f;
+            Time -= 0.1f;
         }
     }
 }

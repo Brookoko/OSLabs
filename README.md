@@ -6,6 +6,10 @@ The first laboratory work is about creating your own allocator that can able to 
 The details of implementation and explanation of algorithm can be found [here](./Lab1/README.md).
 
 ## Lab2: _Page allocator_
-The first laboratory work is about creating page allocator
+The second laboratory work is about creating page allocator
 to improve allocator implementation developed in the last work.
+The details of implementation and explanation of algorithm can be found [here](./Lab2/README.md).
+
+## Lab3: _Process Manager_
+The third laboratory work is about simulating process manager
 The details of implementation and explanation of algorithm can be found [here](./Lab2/README.md).

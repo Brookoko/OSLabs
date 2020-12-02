@@ -2,6 +2,7 @@ namespace Lab3
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
 
     public class Request
     {
@@ -17,7 +18,7 @@ namespace Lab3
         
         public double WaitTime { get; set; }
         
-        public IEnumerator Routine { get; private set; }
+        public List<IEnumerator> Routines { get; } = new List<IEnumerator>();
         
         public DateTime Start { get; set; }
         
@@ -32,7 +33,7 @@ namespace Lab3
         
         public IEnumerator Execute()
         {
-            return Routine = StartRoutine();
+            return StartRoutine();
         }
         
         protected virtual IEnumerator StartRoutine()
@@ -50,6 +51,7 @@ namespace Lab3
         protected override IEnumerator StartRoutine()
         {
             yield return Wait();
+            Console.WriteLine("test");
         }
         
         private IEnumerator Wait()

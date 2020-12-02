@@ -12,7 +12,6 @@ namespace Lab3
         public readonly List<Request> AllRequests = new List<Request>();
         
         private readonly List<Request> requests = new List<Request>();
-        private readonly List<IEnumerator> routines = new List<IEnumerator>();
         private Request current;
         
         public void Add(Request request)
@@ -60,19 +59,19 @@ namespace Lab3
         
         private void ProcessRequest()
         {
-            var routine = routines.Last();
+            var routine = current.Routines.Last();
             if (routine.MoveNext())
             {
                 ProcessRoutine(routine);
             }
-            else if (routine == current.Routine)
+            else if (current.Routines.Count == 1)
             {
                 current.End = DateTime.UtcNow;
                 current = GetNextRequest();
             }
             else
             {
-                routines.Remove(routine);
+                current.Routines.Remove(routine);
             }
         }
         
@@ -81,7 +80,7 @@ namespace Lab3
             switch (routine.Current)
             {
                 case IEnumerator r:
-                    routines.Add(r);
+                    current.Routines.Add(r);
                     break;
                 case double d:
                     current.Delay = d;
@@ -96,7 +95,7 @@ namespace Lab3
                 var request = requests[0];
                 requests.RemoveAt(0);
                 var routine = request.Execute();
-                routines.Add(routine);
+                request.Routines.Add(routine);
                 request.Start = DateTime.UtcNow;
                 return request;
             }
@@ -107,7 +106,6 @@ namespace Lab3
         {
             current = null;
             requests.Clear();
-            routines.Clear();
             AllRequests.Clear();
         }
     }

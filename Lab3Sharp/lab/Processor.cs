@@ -9,26 +9,38 @@ namespace Lab3
     {
         public bool IsEmpty => current == null && requests.Count == 0;
         
-        public double AverageWaitTime => AllRequests.Sum(r => r.WaitTime) / AllRequests.Count;
-        
         public readonly List<Request> AllRequests = new List<Request>();
         
-        private List<Request> requests = new List<Request>();
+        private readonly List<Request> requests = new List<Request>();
+        private readonly List<IEnumerator> routines = new List<IEnumerator>();
         private Request current;
-        private IEnumerator routine;
         
         public void Add(Request request)
         {
             AllRequests.Add(request);
-            requests.Add(request);
-            requests = requests.OrderByDescending(r => r.Priority).ToList();
-            UpdateWaitTime();
+            var index = Insert(request);
+            UpdateWaitTime(index);
         }
         
-        private void UpdateWaitTime()
+        private int Insert(Request request)
         {
-            requests[0].WaitTime = 0;
-            for (var i = 1; i < requests.Count; i++)
+            var i = 0;
+            while (i < requests.Count && request.Priority <= requests[i].Priority)
+            {
+                i++;
+            }
+            requests.Insert(i, request);
+            return i;
+        }
+        
+        private void UpdateWaitTime(int startIndex)
+        {
+            if (startIndex == 0)
+            {
+                requests[0].WaitTime = 0;
+                startIndex++;
+            }
+            for (var i = startIndex; i < requests.Count; i++)
             {
                 var prev = requests[i - 1];
                 var request = requests[i];
@@ -48,9 +60,10 @@ namespace Lab3
         
         private void ProcessRequest()
         {
+            var routine = routines.Last();
             if (routine.MoveNext())
             {
-                ProcessStep();
+                ProcessRoutine(routine);
             }
             else if (routine == current.Routine)
             {
@@ -59,16 +72,16 @@ namespace Lab3
             }
             else
             {
-                routine = current.Routine;
+                routines.Remove(routine);
             }
         }
         
-        private void ProcessStep()
+        private void ProcessRoutine(IEnumerator routine)
         {
             switch (routine.Current)
             {
                 case IEnumerator r:
-                    routine = r;
+                    routines.Add(r);
                     break;
                 case double d:
                     current.Delay = d;
@@ -82,7 +95,8 @@ namespace Lab3
             {
                 var request = requests[0];
                 requests.RemoveAt(0);
-                routine = request.Execute();
+                var routine = request.Execute();
+                routines.Add(routine);
                 request.Start = DateTime.UtcNow;
                 return request;
             }
@@ -93,6 +107,7 @@ namespace Lab3
         {
             current = null;
             requests.Clear();
+            routines.Clear();
             AllRequests.Clear();
         }
     }

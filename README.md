@@ -12,4 +12,4 @@ The details of implementation and explanation of algorithm can be found [here](.
 
 ## Lab3: _Process Manager_
 The third laboratory work is about simulating process manager
-The details of implementation and explanation of algorithm can be found [here](./Lab2/README.md).
+The details of implementation and explanation of algorithm can be found [here](./Lab3Sharp/README.md).

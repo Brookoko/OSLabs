@@ -21,7 +21,8 @@
                     processor.Add(CreateRequest());
                     await Task.Delay(wait);
                 }
-                Console.WriteLine($"{i} : {processor.AverageWaitTime}");
+                var average = processor.AllRequests.Sum(r => r.WaitTime) / processor.AllRequests.Count;
+                Console.WriteLine($"{i} : {average}");
                 processor.Stop();
             }
             isTested = true;
@@ -79,7 +80,7 @@
             processor.Add(new TestRequest(1, 1));
             processor.Add(new TestRequest(1, 1));
             processor.Add(new TestRequest(1, 1));
-            while (!isTested)
+            while (!processor.IsEmpty)
             {
                 processor.Update(0.016);
                 await Task.Delay(16);

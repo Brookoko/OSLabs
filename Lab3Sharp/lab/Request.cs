@@ -49,16 +49,15 @@ namespace Lab3
         
         protected override IEnumerator StartRoutine()
         {
-            while (Time > 0)
-            {
-                yield return Wait();
-            }
+            yield return Wait();
         }
         
         private IEnumerator Wait()
         {
+            if (Time < 0) yield break;
             yield return 0.1f;
             Time -= 0.1f;
+            yield return Wait();
         }
     }
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include <cassert>
 #include <iostream>
+#include <algorithm>
 
 PageAllocator::PageAllocator(size_t size)
 {

@@ -1,0 +1,4 @@
+gcc optimized.cpp -g -pg -o optimized
+gprof optimized.exe gmon.out -p
+gprof optimized.exe gmon.out -q
+time optimized

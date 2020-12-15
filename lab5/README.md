@@ -1,4 +1,4 @@
-# Lab4: _Memory Access Optimization_
+# Lab5: _Memory Access Optimization_
 
 In this laboratory work demonstrates simple memory access optimization.
 

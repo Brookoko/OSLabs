@@ -6,9 +6,9 @@ void new_func1();
 
 int func1()
 {
-    for(int i = 0; i < 100000000; i++)
+    for(int i = 0; i < 10; i++)
     {
-        Sleep(10000000);
+        Sleep(10);
     }
     return 1;
 }
@@ -31,7 +31,7 @@ int main()
 
     for(int i = 0; i < 10 ;i++)
     {
-        for(int j=1000000; j > 0; j--)
+        for(int j=10; j > 0; j--)
         {
             if(func1() || func2(i)){
                 printf("\n Inside if()\n");

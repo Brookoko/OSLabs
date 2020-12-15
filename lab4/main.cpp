@@ -23,7 +23,7 @@ void printMatrix(const std::vector<std::vector<int>>& matrix) {
 std::vector<int> createNodes(int amount) {
     std::vector<int> nodes = std::vector<int>(amount);
     for (int i = 0; i < amount; ++i) {
-        nodes[i] = rand() % 10 + 1;
+        nodes[i] = 5 + rand() % 5 + 1;
     }
     return nodes;
 }
@@ -36,21 +36,11 @@ std::vector<Job> createJobs(int amount) {
     for (int i = 0; i < amount; ++i) {
         Job job{};
         job.startTime = 0;
-        job.endTime = end_time[i];
-        job.executeTime = time[i];
+        job.endTime = rand() % 15;
+        job.executeTime = rand() % 5;
         jobs.push_back(job);
     }
     return jobs;
-}
-
-int sumMatrix(std::vector<std::vector<int>> matrix) {
-    int sum = 0;
-    for (auto & row : matrix) {
-        for (int node : row) {
-            sum += node;
-        }
-    }
-    return sum;
 }
 
 std::vector<std::vector<int>> createMatrix(std::vector<int> nodes, std::vector<Job> jobs, int time) {
@@ -62,7 +52,7 @@ std::vector<std::vector<int>> createMatrix(std::vector<int> nodes, std::vector<J
         relative[i] = (double) nodes[i] / max;
     }
 
-    relative = {1.0, 0.9, 0.8, 0.7, 0.6, 0.9};
+//    relative = {1.0, 0.9, 0.8, 0.7, 0.6, 0.9};
 
     for (auto job : jobs) {
         std::vector<int> row = std::vector<int>(relative.size());
@@ -72,16 +62,12 @@ std::vector<std::vector<int>> createMatrix(std::vector<int> nodes, std::vector<J
         matrix.push_back(row);
     }
 
-    printMatrix(matrix);
-
     for (int i = 0; i < matrix.size(); ++i) {
         for (int j = 0; j < matrix[i].size(); ++j) {
             int t = jobs[i].endTime - jobs[i].startTime - time - matrix[i][j];
             matrix[i][j] = t;
         }
     }
-
-    printMatrix(matrix);
 
     return matrix;
 }
@@ -94,6 +80,8 @@ int main() {
     std::vector<Job> jobs = createJobs(6);
     std::vector<std::vector<int>> matrix = createMatrix(nodes, jobs, nodeTime);
     std::vector<int> solution = findSolution(matrix);
+
+    printMatrix(matrix);
 
     for (int i = 0; i < solution.size(); ++i) {
         printf("Task %d: node %d\n", i, solution[i]);

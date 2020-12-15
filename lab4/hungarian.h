@@ -1,3 +1,7 @@
+#ifndef OSLABS_HUNGARIAN_H
+#define OSLABS_HUNGARIAN_H
+
+#include <vector>
 
 std::vector<int> findSolution(std::vector<std::vector<int>> matrix) {
     int height = matrix.size();
@@ -53,3 +57,5 @@ std::vector<int> findSolution(std::vector<std::vector<int>> matrix) {
 
     return marked;
 }
+
+#endif // OSLABS_HUNGARIAN_H

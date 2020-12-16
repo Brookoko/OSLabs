@@ -76,7 +76,7 @@ std::vector<int> findSolution(std::vector<std::vector<int>> matrix) {
     int width = matrix[0].size();
 
     std::vector<int> u(height, 0);
-    std::vector<int> v(height, 0);
+    std::vector<int> v(width, 0);
     std::vector<int> marked(width, -1);
 
     for(int i = 0; i < height; i++) {

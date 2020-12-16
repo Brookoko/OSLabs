@@ -47,7 +47,7 @@ for (int i = 0; i < 50; i++)
 
 ## Benchmarks
 Original:\
-`Time: 482`
+`Time: 515`
 
 Optimized:\
 `Time: 387`
